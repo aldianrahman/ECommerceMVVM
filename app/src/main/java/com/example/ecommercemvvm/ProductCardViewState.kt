@@ -1,3 +1,12 @@
 package com.example.ecommercemvvm
 
-data class ProductCardViewState(val title : String, val description : String, val price : String)
+import android.graphics.drawable.Drawable
+import android.net.Uri
+import androidx.annotation.DrawableRes
+
+data class ProductCardViewState(
+    val title : String,
+    val description : String,
+    val price : String,
+    val imageUrl: String
+    )

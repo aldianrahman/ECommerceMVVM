@@ -1,10 +1,18 @@
 package com.example.ecommercemvvm
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ecommercemvvm.databinding.ProductCardBinding
+import com.squareup.picasso.Picasso
+import java.io.IOException
+import java.net.HttpURLConnection
+import java.net.URL
+
 
 class ProductCardListAdapter : RecyclerView.Adapter<ProductCardListAdapter.ViewHolder>() {
 
@@ -35,10 +43,16 @@ class ProductCardListAdapter : RecyclerView.Adapter<ProductCardListAdapter.ViewH
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(productCardViewState: ProductCardViewState) {
             val bind =  ProductCardBinding.bind(itemView)
-            bind.viewProductName.text = productCardViewState.title
-            bind.viewProductDescription.text = productCardViewState.description
-            bind.productPrice.text = productCardViewState.price
+            bind.apply {
+                viewProductName.text = productCardViewState.title
+                viewProductDescription.text = productCardViewState.description
+                productPrice.text = productCardViewState.price
+                Picasso.get().load(productCardViewState.imageUrl).into(productImage)
+            }
+
         }
+
+
 
     }
 }

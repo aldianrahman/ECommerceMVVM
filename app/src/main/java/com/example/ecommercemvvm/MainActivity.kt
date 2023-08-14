@@ -3,6 +3,7 @@ package com.example.ecommercemvvm
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
+import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ecommercemvvm.databinding.ActivityMainBinding
@@ -13,18 +14,18 @@ class MainActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivityMainBinding
 
+    private val viewModel: ProductListViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.viewProductList.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
         binding.viewProductList.adapter = adapter
-        updateUI(ProductListViewState.Content((1..3).map {
-            ProductCardViewState("Playstation $it", "This is a nice console! Check it out", "200 US$")
-        }))
-//        updateUI(ProductListViewState.Loading)
-//        updateUI(ProductListViewState.Error)
-
+        viewModel.viewState.observe(this){viewState->
+            updateUI(viewState)
+        }
+        viewModel.loadProductList()
     }
 
     private fun updateUI(viewState: ProductListViewState){
