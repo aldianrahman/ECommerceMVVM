@@ -52,10 +52,11 @@ class ProductCardListAdapter(val onItemClicked: (ProductCardViewState) -> Unit) 
                 viewProductName.text = productCardViewState.title
                 viewProductDescription.text = productCardViewState.description
                 productPrice.text = productCardViewState.price
-                Glide.with(productImage)
-                    .asBitmap()
-                    .load(productCardViewState.imageUrl)
-                    .into(BitmapImageViewTarget(productImage))
+                Picasso.get().load(productCardViewState.imageUrl).into(productImage)
+//                Glide.with(productImage)
+//                    .asBitmap()
+//                    .load(productCardViewState.imageUrl)
+//                    .into(BitmapImageViewTarget(productImage))
             }
         }
 

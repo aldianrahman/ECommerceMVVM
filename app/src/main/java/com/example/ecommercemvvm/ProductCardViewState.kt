@@ -5,8 +5,8 @@ import android.net.Uri
 import androidx.annotation.DrawableRes
 
 data class ProductCardViewState(
-    val title : String,
-    val description : String,
-    val price : String,
-    val imageUrl: String
-    )
+    val title: String,
+    val description: String,
+    val price: String,
+    val imageUrl : String
+)

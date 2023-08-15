@@ -1,5 +1,6 @@
 package com.example.ecommercemvvm
 
+import com.example.ecommercemvvm.data.entity.ProductEntity
 import retrofit2.http.GET
 
 interface ProductService {

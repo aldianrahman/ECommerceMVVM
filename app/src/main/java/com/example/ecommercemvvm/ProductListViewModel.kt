@@ -11,20 +11,19 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductListViewModel @Inject constructor(
     private val repository: ProductRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _viewState = MutableLiveData<ProductListViewState>()
-    val viewState : LiveData<ProductListViewState>
+    val viewState: LiveData<ProductListViewState>
         get() = _viewState
 
 
-    fun loadProductList(){
+    fun loadProductList() {
         viewModelScope.launch {
             _viewState.postValue(ProductListViewState.Loading)
-            //Data call to fetch products
+            // Data call to fetch products
             val productList = repository.getProductList()
             _viewState.postValue(ProductListViewState.Content(productList))
         }
     }
-
 }
