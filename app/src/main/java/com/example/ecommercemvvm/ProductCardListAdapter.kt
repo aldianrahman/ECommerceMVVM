@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.example.ecommercemvvm.databinding.ProductCardBinding
 import com.squareup.picasso.Picasso
 import java.io.IOException
@@ -14,7 +16,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 
-class ProductCardListAdapter : RecyclerView.Adapter<ProductCardListAdapter.ViewHolder>() {
+class ProductCardListAdapter(val onItemClicked: (ProductCardViewState) -> Unit) : RecyclerView.Adapter<ProductCardListAdapter.ViewHolder>() {
 
 
     private var data: List<ProductCardViewState> = emptyList()
@@ -40,19 +42,22 @@ class ProductCardListAdapter : RecyclerView.Adapter<ProductCardListAdapter.ViewH
         this.data = productList
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(productCardViewState: ProductCardViewState) {
-            val bind =  ProductCardBinding.bind(itemView)
+            val bind = ProductCardBinding.bind(itemView)
+            itemView.setOnClickListener {
+                onItemClicked(productCardViewState)
+            }
             bind.apply {
                 viewProductName.text = productCardViewState.title
                 viewProductDescription.text = productCardViewState.description
                 productPrice.text = productCardViewState.price
-                Picasso.get().load(productCardViewState.imageUrl).into(productImage)
+                Glide.with(productImage)
+                    .asBitmap()
+                    .load(productCardViewState.imageUrl)
+                    .into(BitmapImageViewTarget(productImage))
             }
-
         }
-
-
 
     }
 }
