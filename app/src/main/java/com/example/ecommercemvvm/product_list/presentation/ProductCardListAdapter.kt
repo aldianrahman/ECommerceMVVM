@@ -1,19 +1,14 @@
-package com.example.ecommercemvvm
+package com.example.ecommercemvvm.product_list.presentation
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.BitmapImageViewTarget
+import com.example.ecommercemvvm.R
 import com.example.ecommercemvvm.databinding.ProductCardBinding
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import java.io.IOException
-import java.net.HttpURLConnection
-import java.net.URL
 
 
 class ProductCardListAdapter(val onItemClicked: (ProductCardViewState) -> Unit) : RecyclerView.Adapter<ProductCardListAdapter.ViewHolder>() {
@@ -52,7 +47,30 @@ class ProductCardListAdapter(val onItemClicked: (ProductCardViewState) -> Unit) 
                 viewProductName.text = productCardViewState.title
                 viewProductDescription.text = productCardViewState.description
                 productPrice.text = productCardViewState.price
-                Picasso.get().load(productCardViewState.imageUrl).into(productImage)
+                viewWishlistIcon.setImageDrawable(
+                    if(productCardViewState.isFavorite){
+                        ResourcesCompat.getDrawable(viewWishlistIcon.resources,
+                        R.drawable.ic_baseline_favorite,
+                        null)
+                    }else{
+                        ResourcesCompat.getDrawable(viewWishlistIcon.resources,
+                            R.drawable.ic_baseline_favorite_disabled,
+                            null)
+                    }
+                )
+                Picasso.get()
+                    .load(productCardViewState.imageUrl)
+                    .into(productImage, object : Callback {
+                        override fun onSuccess() {
+                            // Hide the progress bar when the image is loaded
+                            loadingViewImage.visibility = View.GONE
+                            productImage.visibility = View.VISIBLE
+                        }
+
+                        override fun onError(e: Exception?) {
+                            // Handle error if image loading fails
+                        }
+                    })
 //                Glide.with(productImage)
 //                    .asBitmap()
 //                    .load(productCardViewState.imageUrl)

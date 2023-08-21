@@ -1,9 +1,10 @@
-package com.example.ecommercemvvm
+package com.example.ecommercemvvm.product_list.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ecommercemvvm.shared.data.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,7 +24,18 @@ class ProductListViewModel @Inject constructor(
             _viewState.postValue(ProductListViewState.Loading)
             // Data call to fetch products
             val productList = repository.getProductList()
-            _viewState.postValue(ProductListViewState.Content(productList))
+            _viewState.postValue(
+                ProductListViewState.Content(
+                    productList.map {
+                        ProductCardViewState(
+                            it.title,
+                            it.description,
+                            "US $ ${it.price}",
+                            it.imageUrl,
+                            false
+                        )
+                    }
+                ))
         }
     }
 }

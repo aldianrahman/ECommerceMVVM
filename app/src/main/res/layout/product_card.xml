@@ -11,6 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ProgressBar
+            android:id="@+id/loadingViewImage"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="#bababa"
+            />
+
         <ImageView
             android:id="@+id/productImage"
             android:layout_width="120dp"
@@ -20,7 +32,9 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="#bababa" />
+            android:background="#bababa"
+            android:visibility="invisible"
+            />
 
         <TextView
             android:id="@+id/viewProductName"
@@ -73,6 +87,19 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:text="Buy it!"
+            />
+
+        <ImageView
+            android:id="@+id/view_wishlist_icon"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="12dp"
+            android:padding="8dp"
+            android:background="@drawable/border"
+            android:src="@drawable/ic_baseline_favorite"
+            app:layout_constraintBottom_toBottomOf="@+id/buyButton"
+            app:layout_constraintEnd_toStartOf="@id/buyButton"
+            app:layout_constraintTop_toTopOf="@id/buyButton"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

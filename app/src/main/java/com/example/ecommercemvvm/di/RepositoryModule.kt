@@ -1,9 +1,9 @@
 package com.example.ecommercemvvm.di
 
-import com.example.ecommercemvvm.ApiClient
-import com.example.ecommercemvvm.ProductRepository
-import com.example.ecommercemvvm.ProductRepositoryAPI
-import com.example.ecommercemvvm.ProductService
+import com.example.ecommercemvvm.shared.data.repository.api.ApiClient
+import com.example.ecommercemvvm.shared.data.repository.ProductRepository
+import com.example.ecommercemvvm.shared.data.repository.api.ProductRepositoryAPI
+import com.example.ecommercemvvm.shared.data.repository.api.ProductService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +17,7 @@ class RepositoryModule {
     fun providesProductService(): ProductService = ApiClient.getService()
 
     @Provides
-    fun providedsProductRepositoryAPI(
+    fun providesProductRepositoryAPI(
         service: ProductService
     ): ProductRepositoryAPI = ProductRepositoryAPI(service)
 

@@ -1,4 +1,4 @@
-package com.example.ecommercemvvm
+package com.example.ecommercemvvm.product_list.presentation
 
 sealed class ProductListViewState {
     object Loading : ProductListViewState()

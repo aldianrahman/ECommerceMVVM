@@ -1,4 +1,4 @@
-package com.example.ecommercemvvm
+package com.example.ecommercemvvm.shared.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

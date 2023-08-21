@@ -1,6 +1,7 @@
-package com.example.ecommercemvvm.data.entity
+package com.example.ecommercemvvm.product_list.data
 
 data class ProductEntity(
+    val id : String,
     val title: String,
     val description: String,
     val price: Double,

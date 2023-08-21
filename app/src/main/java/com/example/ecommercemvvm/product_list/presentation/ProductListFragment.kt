@@ -1,4 +1,4 @@
-package com.example.ecommercemvvm.view
+package com.example.ecommercemvvm.product_list.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,13 +7,9 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.ecommercemvvm.ProductCardListAdapter
-import com.example.ecommercemvvm.ProductCardViewState
-import com.example.ecommercemvvm.ProductListViewModel
-import com.example.ecommercemvvm.ProductListViewState
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.ecommercemvvm.databinding.ProductListFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,6 +18,7 @@ class ProductListFragment : Fragment() {
     private lateinit var binding: ProductListFragmentBinding
     private val viewModel: ProductListViewModel by viewModels()
     private val adapter = ProductCardListAdapter(::onItemClicked)
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +34,7 @@ class ProductListFragment : Fragment() {
         binding.viewProductList.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.viewProductList.adapter = adapter
+        swipeRefreshLayout = binding.swipeRefreshLayout
         viewModel.viewState.observe(viewLifecycleOwner) { viewState ->
             updateUI(viewState)
         }
@@ -46,10 +44,14 @@ class ProductListFragment : Fragment() {
     private fun updateUI(viewState: ProductListViewState) {
         when (viewState) {
             is ProductListViewState.Content -> {
+                swipeRefreshLayout.isRefreshing = false
                 binding.viewProductList.isVisible = true
                 binding.errorView.isVisible = false
                 binding.loadingView.isVisible = false
                 adapter.setData(viewState.productList)
+                swipeRefreshLayout.setOnRefreshListener {
+                    viewModel.loadProductList()
+                }
             }
             ProductListViewState.Error -> {
                 binding.viewProductList.isVisible = false

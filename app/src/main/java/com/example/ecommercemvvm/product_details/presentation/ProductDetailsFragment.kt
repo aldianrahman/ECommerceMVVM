@@ -1,4 +1,4 @@
-package com.example.ecommercemvvm.view
+package com.example.ecommercemvvm.product_details.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
