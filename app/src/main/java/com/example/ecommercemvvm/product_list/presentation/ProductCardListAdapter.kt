@@ -11,7 +11,10 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
 
-class ProductCardListAdapter(val onItemClicked: (ProductCardViewState) -> Unit) : RecyclerView.Adapter<ProductCardListAdapter.ViewHolder>() {
+class ProductCardListAdapter(
+    val onItemClicked: (ProductCardViewState) -> Unit,
+    val onFavoriteIconClicked: (ProductCardViewState) -> Unit
+) : RecyclerView.Adapter<ProductCardListAdapter.ViewHolder>() {
 
 
     private var data: List<ProductCardViewState> = emptyList()
@@ -35,6 +38,7 @@ class ProductCardListAdapter(val onItemClicked: (ProductCardViewState) -> Unit) 
 
     fun setData(productList: List<ProductCardViewState>) {
         this.data = productList
+        notifyDataSetChanged()
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -47,15 +51,24 @@ class ProductCardListAdapter(val onItemClicked: (ProductCardViewState) -> Unit) 
                 viewProductName.text = productCardViewState.title
                 viewProductDescription.text = productCardViewState.description
                 productPrice.text = productCardViewState.price
+                viewWishlistIcon.setOnClickListener{
+                    onFavoriteIconClicked.invoke(
+                        productCardViewState
+                    )
+                }
                 viewWishlistIcon.setImageDrawable(
-                    if(productCardViewState.isFavorite){
-                        ResourcesCompat.getDrawable(viewWishlistIcon.resources,
-                        R.drawable.ic_baseline_favorite,
-                        null)
-                    }else{
-                        ResourcesCompat.getDrawable(viewWishlistIcon.resources,
+                    if (productCardViewState.isFavorite) {
+                        ResourcesCompat.getDrawable(
+                            viewWishlistIcon.resources,
+                            R.drawable.ic_baseline_favorite,
+                            null
+                        )
+                    } else {
+                        ResourcesCompat.getDrawable(
+                            viewWishlistIcon.resources,
                             R.drawable.ic_baseline_favorite_disabled,
-                            null)
+                            null
+                        )
                     }
                 )
                 Picasso.get()

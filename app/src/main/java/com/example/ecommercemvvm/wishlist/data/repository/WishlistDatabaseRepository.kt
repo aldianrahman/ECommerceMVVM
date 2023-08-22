@@ -1,15 +1,34 @@
 package com.example.ecommercemvvm.wishlist.data.repository
 
-class WishlistDatabaseRepository: WishlisRepository {
-    override fun isFavorite(productId: String): Boolean {
-        return true
+import com.example.ecommercemvvm.wishlist.data.repository.database.FavoriteProductEntity
+import com.example.ecommercemvvm.wishlist.data.repository.database.WishListDAO
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
+
+class WishlistDatabaseRepository @Inject constructor(
+    private val databaseDAO: WishListDAO
+): WishlistRepository {
+    override suspend  fun isFavorite(productId: String): Boolean {
+        return withContext(Dispatchers.IO){
+            databaseDAO.isProductFavorite(productId) != null
+        }
     }
 
-    override fun addToWishlist(productId: String) {
-        TODO("Not yet implemented")
+    override suspend  fun addToWishlist(productId: String) {
+        return withContext(Dispatchers.IO){
+            databaseDAO.addProductToFavorites(
+                FavoriteProductEntity(productId,"")
+            )
+        }
+
     }
 
-    override fun removeFromWishlist(productId: String) {
-        TODO("Not yet implemented")
+    override suspend  fun removeFromWishlist(productId: String) {
+        return withContext(Dispatchers.IO){
+            databaseDAO.removeProductFromFavorites(
+                FavoriteProductEntity(productId,"")
+            )
+        }
     }
 }
